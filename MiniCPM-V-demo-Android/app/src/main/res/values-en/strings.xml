@@ -62,6 +62,7 @@
     <string name="video_only_v46">Video understanding is only available on MiniCPM-V-4.6. Please switch models in Model Management.</string>
     <string name="video_processing_progress">%1$s · Processing %2$d/%3$d</string>
     <string name="video_preprocessing_done">%1$s · Preprocess %2$.1fs</string>
+    <string name="image_preprocessing_done">%1$s · Preprocess %2$.1fs</string>
 
     <!-- Download prompt dialog -->
     <string name="download_prompt_title">Model Download Required</string>
@@ -98,6 +99,8 @@
     <!-- ChatAdapter -->
     <string name="thinking_in_progress">Thinking…</string>
     <string name="thinking_process">Thinking</string>
+    <string name="thinking_process_with_time">%1$s (%2$.1fs)</string>
+    <string name="generation_time_label">Generated in %1$.1fs</string>
 
     <!-- ModelInfo descriptions -->
     <string name="model_desc_v4">Lightweight multimodal model with image understanding (4.1B)</string>

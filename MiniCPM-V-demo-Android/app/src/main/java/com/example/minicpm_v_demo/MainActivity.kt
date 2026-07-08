@@ -467,7 +467,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
+                val startNs = System.nanoTime()
                 engine.prefillImage(imageBytes)
+                val elapsedMs = (System.nanoTime() - startNs) / 1_000_000
 
                 isImagePrefilled = true
 
@@ -475,6 +477,7 @@ class MainActivity : AppCompatActivity() {
                     val index = messages.indexOfFirst { it.id == msgId }
                     if (index >= 0) {
                         messages[index] = (messages[index] as ChatMessage.UserMessage).copy(
+                            imageInfo = getString(R.string.image_preprocessing_done, imageInfo, elapsedMs / 1000.0),
                             isPrefilling = false
                         )
                         chatAdapter.submitList(messages.toList())
@@ -629,14 +632,20 @@ class MainActivity : AppCompatActivity() {
 
         generationJob = lifecycleScope.launch(Dispatchers.Default) {
             val fullResponse = StringBuilder()
+            var thinkingStartTimeMs = 0L
+            var thinkingTimeMs: Long? = null
+            val genStartTimeMs = System.currentTimeMillis()
             engine.sendUserPrompt(userMsg)
                 .onCompletion {
+                    val generationTimeMs = System.currentTimeMillis() - genStartTimeMs
                     withContext(Dispatchers.Main) {
                         val index = messages.indexOfFirst { it.id == aiMsgId }
                         if (index >= 0) {
                             messages[index] = (messages[index] as ChatMessage.AiMessage).copy(
                                 text = fullResponse.toString(),
-                                isGenerating = false
+                                isGenerating = false,
+                                thinkingTimeMs = thinkingTimeMs,
+                                generationTimeMs = generationTimeMs
                             )
                         }
                         chatAdapter.setGeneratingDone(aiMsgId)
@@ -648,17 +657,24 @@ class MainActivity : AppCompatActivity() {
                 }
                 .collect { token ->
                     fullResponse.append(token)
+                    val currentText = fullResponse.toString()
+                    if (thinkingStartTimeMs == 0L && currentText.contains("<think>")) {
+                        thinkingStartTimeMs = System.currentTimeMillis()
+                    }
+                    if (thinkingTimeMs == null && currentText.contains("</think>")) {
+                        thinkingTimeMs = System.currentTimeMillis() - thinkingStartTimeMs
+                    }
                     withContext(Dispatchers.Main) {
-                        val currentText = fullResponse.toString()
                         val index = messages.indexOfFirst { it.id == aiMsgId }
                         if (index >= 0) {
                             messages[index] = ChatMessage.AiMessage(
                                 id = aiMsgId,
                                 text = currentText,
-                                isGenerating = true
+                                isGenerating = true,
+                                thinkingTimeMs = thinkingTimeMs
                             )
                         }
-                        chatAdapter.updateStreamingText(aiMsgId, currentText)
+                        chatAdapter.updateStreamingText(aiMsgId, currentText, thinkingTimeMs)
                         scrollToBottom()
                     }
                 }

@@ -90,6 +90,16 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="15sp"
                 android:lineSpacingMultiplier="1.2" />
+
+            <TextView
+                android:id="@+id/tv_generation_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="11sp"
+                android:alpha="0.5"
+                android:visibility="gone" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

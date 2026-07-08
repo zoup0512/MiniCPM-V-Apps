@@ -167,22 +167,16 @@ tasks.register("buildGgmlCpu_v86") {
             "-B", bd.absolutePath,
         )
 
-        runCmd(
-            cmake,
-            "--build", bd.absolutePath,
-            "--target", "ggml-cpu",
-            "-j", Runtime.getRuntime().availableProcessors().toString(),
-        )
+//        runCmd(
+//            cmake,
+//            "--build", bd.absolutePath,
+//            "--target", "ggml-cpu",
+//            "-j", Runtime.getRuntime().availableProcessors().toString(),
+//        )
 
-        val builtSo = fileTree(bd).matching { include("**/libggml-cpu.so") }.singleFile
-        destSo.parentFile.mkdirs()
-        builtSo.copyTo(destSo, overwrite = true)
-        logger.lifecycle("Copied v86 ggml-cpu -> ${destSo.absolutePath} (${destSo.length() / 1024}K)")
-    }
-}
-
-afterEvaluate {
-    listOf("Debug", "Release").forEach { buildType ->
-        tasks.findByName("merge${buildType}JniLibFolders")?.dependsOn("buildGgmlCpu_v86")
+//        val builtSo = fileTree(bd).matching { include("**/libggml-cpu.so") }.singleFile
+//        destSo.parentFile.mkdirs()
+//        builtSo.copyTo(destSo, overwrite = true)
+//        logger.lifecycle("Copied v86 ggml-cpu -> ${destSo.absolutePath} (${destSo.length() / 1024}K)")
     }
 }

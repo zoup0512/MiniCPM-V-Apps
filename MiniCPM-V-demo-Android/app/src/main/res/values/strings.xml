@@ -65,6 +65,7 @@
     <string name="video_only_v46">视频理解仅在 MiniCPM-V-4.6 上可用，请前往"模型管理"切换模型</string>
     <string name="video_processing_progress">%1$s · 处理中 %2$d/%3$d</string>
     <string name="video_preprocessing_done">%1$s · 预处理 %2$.1fs</string>
+    <string name="image_preprocessing_done">%1$s · 预处理 %2$.1fs</string>
 
     <!-- Download prompt dialog -->
     <string name="download_prompt_title">需要下载模型</string>
@@ -101,6 +102,8 @@
     <!-- ChatAdapter -->
     <string name="thinking_in_progress">思考中…</string>
     <string name="thinking_process">思考过程</string>
+    <string name="thinking_process_with_time">%1$s (%2$.1fs)</string>
+    <string name="generation_time_label">生成耗时 %1$.1fs</string>
 
     <!-- ModelInfo descriptions -->
     <string name="model_desc_v4">轻量级多模态模型，支持图文理解 (4.1B)</string>

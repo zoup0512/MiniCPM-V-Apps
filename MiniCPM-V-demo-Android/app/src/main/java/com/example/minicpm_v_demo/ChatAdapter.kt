@@ -46,9 +46,9 @@ class ChatAdapter(
         activeAiHolder = null
     }
 
-    fun updateStreamingText(id: Long, text: String) {
+    fun updateStreamingText(id: Long, text: String, thinkingTimeMs: Long? = null) {
         if (id == activeAiId) {
-            activeAiHolder?.updateText(text)
+            activeAiHolder?.updateText(text, thinkingTimeMs)
         }
     }
 
@@ -167,6 +167,7 @@ class ChatAdapter(
 
     inner class AiMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvText: TextView = itemView.findViewById(R.id.tv_ai_text)
+        private val tvGenerationTime: TextView = itemView.findViewById(R.id.tv_generation_time)
         private val btnStop: MaterialButton = itemView.findViewById(R.id.btn_stop_generating)
         private val layoutThinking: View = itemView.findViewById(R.id.layout_thinking)
         private val layoutThinkingHeader: View = itemView.findViewById(R.id.layout_thinking_header)
@@ -183,27 +184,35 @@ class ChatAdapter(
                 streamingMinWidth = 0
                 (tvText.parent as? ViewGroup)?.minimumWidth = 0
             }
-            renderWithThinking(item.text, item.isGenerating)
+            renderWithThinking(item.text, item.isGenerating, item.thinkingTimeMs)
             btnStop.visibility = if (item.isGenerating) View.VISIBLE else View.GONE
             btnStop.setOnClickListener {
                 onStopClick?.invoke()
             }
+            if (!item.isGenerating && item.generationTimeMs != null) {
+                tvGenerationTime.visibility = View.VISIBLE
+                tvGenerationTime.text = itemView.context.getString(
+                    R.string.generation_time_label, item.generationTimeMs / 1000.0
+                )
+            } else {
+                tvGenerationTime.visibility = View.GONE
+            }
         }
 
-        fun updateText(text: String) {
+        fun updateText(text: String, thinkingTimeMs: Long? = null) {
             val contentLayout = tvText.parent as? ViewGroup
             if (contentLayout != null && contentLayout.width > streamingMinWidth) {
                 streamingMinWidth = contentLayout.width
             }
             contentLayout?.minimumWidth = streamingMinWidth
-            renderWithThinking(text, true)
+            renderWithThinking(text, true, thinkingTimeMs)
         }
 
         fun setStopButtonVisible(visible: Boolean) {
             btnStop.visibility = if (visible) View.VISIBLE else View.GONE
         }
 
-        private fun renderWithThinking(raw: String, isGenerating: Boolean) {
+        private fun renderWithThinking(raw: String, isGenerating: Boolean, thinkingTimeMs: Long? = null) {
             val parsed = parseThinkingBlock(raw, isGenerating)
 
             if (parsed.thinkingText != null) {
@@ -213,7 +222,12 @@ class ChatAdapter(
                     tvThinkingLabel.text = itemView.context.getString(R.string.thinking_in_progress)
                     thinkingExpanded = true
                 } else {
-                    tvThinkingLabel.text = itemView.context.getString(R.string.thinking_process)
+                    val label = itemView.context.getString(R.string.thinking_process)
+                    tvThinkingLabel.text = if (thinkingTimeMs != null) {
+                        itemView.context.getString(R.string.thinking_process_with_time, label, thinkingTimeMs / 1000.0)
+                    } else {
+                        label
+                    }
                 }
 
                 tvThinkingArrow.text = if (thinkingExpanded) "▾" else "▸"
