@@ -70,6 +70,13 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }
+        // If the selected model is the semantic classifier, redirect to
+        // SemanticActivity which provides a chat-like test interface.
+        if (shouldRedirectToSemantic()) {
+            startActivity(Intent(this, SemanticActivity::class.java))
+            finish()
+            return
+        }
 
         setContentView(R.layout.activity_main)
 
@@ -330,6 +337,11 @@ class MainActivity : AppCompatActivity() {
     private fun shouldRedirectToTts(): Boolean {
         val model = LlamaEngine.getSelectedModel(applicationContext)
         return model.isTts
+    }
+
+    private fun shouldRedirectToSemantic(): Boolean {
+        val model = LlamaEngine.getSelectedModel(applicationContext)
+        return model.isSemanticClassifier
     }
 
     private fun updateUIForModelType() {
@@ -709,6 +721,11 @@ class MainActivity : AppCompatActivity() {
         // activity was in the background, redirect to TtsActivity.
         if (shouldRedirectToTts()) {
             startActivity(Intent(this, TtsActivity::class.java))
+            finish()
+            return
+        }
+        if (shouldRedirectToSemantic()) {
+            startActivity(Intent(this, SemanticActivity::class.java))
             finish()
             return
         }

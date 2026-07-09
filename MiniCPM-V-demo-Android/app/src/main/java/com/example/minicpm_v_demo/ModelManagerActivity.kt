@@ -198,10 +198,19 @@ class ModelManagerActivity : AppCompatActivity() {
     }
 
     private fun updateLoadButtonState() {
+        val model = LlamaEngine.getSelectedModel(this)
+        if (model.isSemanticClassifier) {
+            btnDownload.visibility = View.GONE
+            btnDeleteModel.visibility = View.GONE
+            btnLoadModel.isEnabled = true
+            btnLoadModel.text = getString(R.string.load_model)
+            return
+        }
         val exists = LlamaEngine.modelsExist(this)
         val isReady = engine.state.value is LlamaState.ModelReady
         btnLoadModel.isEnabled = exists
         btnDeleteModel.visibility = if (exists) View.VISIBLE else View.GONE
+        btnDownload.visibility = View.VISIBLE
         btnLoadModel.text = when {
             isReady -> getString(R.string.reload_model)
             exists -> getString(R.string.load_model)
@@ -307,6 +316,12 @@ class ModelManagerActivity : AppCompatActivity() {
         if (model.isTts) {
             LlamaEngine.markModelSwitched(applicationContext)
             finish() // return to parent; MainActivity will redirect
+            return
+        }
+        // Semantic classifier is handled by SemanticActivity, not LlamaEngine.
+        if (model.isSemanticClassifier) {
+            LlamaEngine.markModelSwitched(applicationContext)
+            finish()
             return
         }
 

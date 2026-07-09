@@ -35,8 +35,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="landscape"
-            android:configChanges="locale|layoutDirection"
+            android:configChanges="locale|layoutDirection|orientation|screenSize|smallestScreenSize"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,17 +46,22 @@
         <activity
             android:name=".ModelManagerActivity"
             android:exported="false"
-            android:screenOrientation="landscape"
-            android:configChanges="locale|layoutDirection"
+            android:configChanges="locale|layoutDirection|orientation|screenSize|smallestScreenSize"
             android:label="@string/model_management"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".TtsActivity"
             android:exported="false"
-            android:screenOrientation="landscape"
-            android:configChanges="locale|layoutDirection"
+            android:configChanges="locale|layoutDirection|orientation|screenSize|smallestScreenSize"
             android:label="@string/tts_title"
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".SemanticActivity"
+            android:exported="false"
+            android:configChanges="locale|layoutDirection|orientation|screenSize|smallestScreenSize"
+            android:label="@string/semantic_title"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustResize" />
 

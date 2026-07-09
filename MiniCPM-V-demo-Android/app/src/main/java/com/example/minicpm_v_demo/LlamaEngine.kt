@@ -151,6 +151,7 @@ class LlamaEngine private constructor(
 
         fun modelsExist(context: Context): Boolean {
             val model = getSelectedModel(context)
+            if (model.isSemanticClassifier) return true
             if (!File(modelPath(context)).exists()) return false
             if (model.isTextOnly) return true
             if (model.isTts) {

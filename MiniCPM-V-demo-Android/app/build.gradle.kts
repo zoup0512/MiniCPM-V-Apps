@@ -97,6 +97,7 @@ android {
     androidResources {
         noCompress.add("gguf")
         noCompress.add("bin")
+        noCompress.add("onnx")
     }
 }
 
@@ -116,6 +117,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.20.0")
 }
 
 // ---------------------------------------------------------------------------

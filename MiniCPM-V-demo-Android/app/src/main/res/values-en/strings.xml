@@ -107,6 +107,7 @@
     <string name="model_desc_v46">Next-gen multimodal model with image understanding (1.2B)</string>
     <string name="model_desc_minicpm5">Lightweight text-only model (1B)</string>
     <string name="model_desc_voxcpm2">Multilingual TTS with voice design and cloning (2B)</string>
+    <string name="model_desc_semantic">In-vehicle voice intent classifier (BERT ONNX)</string>
 
     <!-- VideoFrameExtractor -->
     <string name="video_label">Video</string>
@@ -179,4 +180,12 @@
     <string name="tts_preset_load_failed">Failed to load preset: %1$s</string>
     <string name="tts_baselm_missing">BaseLM GGUF file missing, please download</string>
     <string name="tts_acoustic_missing">Acoustic GGUF file missing, please download</string>
+
+    <!-- Semantic Activity -->
+    <string name="semantic_title">Semantic Classifier (BERT)</string>
+    <string name="semantic_input_hint">Enter text to classify</string>
+    <string name="semantic_confidence">Confidence: %.1f%%</string>
+    <string name="semantic_loading">Loading model…</string>
+    <string name="semantic_load_failed">Failed to load model: %1$s</string>
+    <string name="semantic_error">Classification failed: %1$s</string>
 </resources>

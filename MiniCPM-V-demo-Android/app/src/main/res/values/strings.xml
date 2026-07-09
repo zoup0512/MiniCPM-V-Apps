@@ -110,6 +110,7 @@
     <string name="model_desc_v46">新一代多模态模型，支持图文理解 (1.2B)</string>
     <string name="model_desc_minicpm5">轻量级纯文本模型 (1B)</string>
     <string name="model_desc_voxcpm2">多语言语音合成模型, 支持音色设计与声音克隆 (2B)</string>
+    <string name="model_desc_semantic">车载语音语义解析模型 (BERT ONNX)</string>
 
     <!-- VideoFrameExtractor -->
     <string name="video_label">视频</string>
@@ -182,4 +183,12 @@
     <string name="tts_preset_load_failed">加载预设失败: %1$s</string>
     <string name="tts_baselm_missing">BaseLM GGUF 文件不存在，请下载模型</string>
     <string name="tts_acoustic_missing">Acoustic GGUF 文件不存在，请下载模型</string>
+
+    <!-- Semantic Activity -->
+    <string name="semantic_title">语义解析 (BERT)</string>
+    <string name="semantic_input_hint">输入文本进行分类</string>
+    <string name="semantic_confidence">置信度: %.1f%%</string>
+    <string name="semantic_loading">模型加载中…</string>
+    <string name="semantic_load_failed">模型加载失败: %1$s</string>
+    <string name="semantic_error">分类失败: %1$s</string>
 </resources>

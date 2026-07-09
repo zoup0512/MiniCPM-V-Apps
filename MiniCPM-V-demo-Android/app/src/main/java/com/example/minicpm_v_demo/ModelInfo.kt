@@ -47,11 +47,12 @@ data class ModelInfo(
     val directAcousticUrl: String? = null,
     val ggufMd5: String? = null,
     val mmprojMd5: String? = null,
-    val acousticMd5: String? = null
+    val acousticMd5: String? = null,
+    val isSemanticClassifier: Boolean = false
 ) {
     /** True for text-only models that have no vision projector. */
     val isTextOnly: Boolean
-        get() = mmprojFileName == null && acousticFileName == null
+        get() = mmprojFileName == null && acousticFileName == null && !isSemanticClassifier
 
     /** True for TTS (text-to-speech) models with acoustic component. */
     val isTts: Boolean
@@ -158,6 +159,17 @@ data class ModelInfo(
                 directAcousticUrl = "https://huggingface.co/tc-mb/MiniCPM-V-Apps-gguf/resolve/main/VoxCPM2-Acoustic-F16.gguf",
                 ggufMd5 = "d8cd571526464d225187d326caa289be",
                 acousticMd5 = "0f16229cfffe935102d21433f6969f8b"
+            ),
+            // Semantic intent classifier — ONNX BERT model bundled in
+            // assets (bert.onnx + vocab.txt + id2label.json). No download
+            // required; selection redirects to SemanticActivity which
+            // runs ONNX Runtime inference directly.
+            ModelInfo(
+                id = "semantic-classifier",
+                displayName = "Semantic Classifier (BERT)",
+                descriptionResName = "model_desc_semantic",
+                ggufFileName = "bert.onnx",
+                isSemanticClassifier = true
             )
         )
 
